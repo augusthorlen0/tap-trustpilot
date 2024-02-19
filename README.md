@@ -1,4 +1,5 @@
 # tap-trustpilot
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 `tap-trustpilot` is a Singer tap for Trustpilot.
 

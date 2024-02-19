@@ -13,7 +13,7 @@ from tap_trustpilot import streams
 
 class TapTrustpilot(Tap):
     """Trustpilot tap class."""
-    
+
     name = "tap-trustpilot"
 
     @property
@@ -34,9 +34,9 @@ class TapTrustpilot(Tap):
             th.Property(
                 "website_url",
                 th.ArrayType(th.StringType),
-            )
+            ),
         ).to_dict()
-    
+
     def discover_streams(self) -> list[streams.TrustpilotStream]:
         """Return a list of discovered streams.
 

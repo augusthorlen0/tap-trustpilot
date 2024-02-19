@@ -27,5 +27,6 @@ class Reviews(TrustpilotStream):
     """
     Get Reviews for the given website in the config file
     """
+
     name = "reviews"
     path = "/business-units/{business_unit_id}/reviews"
