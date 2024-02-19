@@ -34,6 +34,7 @@ class TapTrustpilot(Tap):
             th.Property(
                 "website_url",
                 th.ArrayType(th.StringType),
+                description="A list of all website URLs that Trustpilot reviews should be fetched from"
             ),
         ).to_dict()
 

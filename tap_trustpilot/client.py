@@ -107,12 +107,12 @@ class TrustpilotStream(RESTStream):
 
     def get_business_unit_id(self, website_url):
         if website_url in self.websites_checked:
-            logging.warning(
+            logging.info(
                 f"Already have for {website_url} and exitsts in {self.websites_checked}"
             )
             return self.business_unit_id
 
-        logging.warning(
+        logging.info(
             f"Getting {website_url=} and here is the liust {self.websites_checked=}"
         )
 
@@ -127,7 +127,7 @@ class TrustpilotStream(RESTStream):
         self.business_unit_id = res.json().get("id")
 
         self.websites_checked.append(website_url)
-        logging.warning(f"Fetched {self.business_unit_id=} for {website_url}")
+        logging.info(f"Fetched {self.business_unit_id=} for {website_url}")
 
         return self.business_unit_id
 
