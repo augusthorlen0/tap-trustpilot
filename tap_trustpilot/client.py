@@ -113,7 +113,7 @@ class TrustpilotStream(RESTStream):
             return self.business_unit_id
 
         logging.info(
-            f"Getting {website_url=} and here is the liust {self.websites_checked=}"
+            f"Getting {website_url=} and here is the list {self.websites_checked=}"
         )
 
         api_key = self.config.get("auth_token", "")
