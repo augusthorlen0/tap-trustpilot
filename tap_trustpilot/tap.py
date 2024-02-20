@@ -20,16 +20,11 @@ class TapTrustpilot(Tap):
     def config_jsonschema(self) -> dict:
         return th.PropertiesList(
             th.Property(
-                "auth_token",
+                "api_key",
                 th.StringType,
                 required=True,
                 secret=True,  # Flag config as protected.
                 description="The token to authenticate against the API service",
-            ),
-            th.Property(
-                "business_unit_id",
-                th.StringType,
-                description="Business Unit ID to fetch",
             ),
             th.Property(
                 "website_url",
