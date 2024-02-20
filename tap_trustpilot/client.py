@@ -65,7 +65,7 @@ class TrustpilotStream(RESTStream):
         return APIKeyAuthenticator.create_for_stream(
             self,
             key="apikey",
-            value=self.config.get("auth_token", ""),
+            value=self.config.get("api_key", ""),
             location="params",
         )
 
@@ -101,7 +101,7 @@ class TrustpilotStream(RESTStream):
             f"Getting {website_url=} and here is the list {self.websites_checked=}"
         )
 
-        api_key = self.config.get("auth_token", "")
+        api_key = self.config.get("api_key", "")
         self.website_url = self.config.get("website_url", "")
         url = f"{self.url_base}/business-units/find?name={website_url}"
 

@@ -28,8 +28,7 @@ pipx install git+https://github.com/ORG_NAME/tap-trustpilot.git@main
 ### Example of `.secrets/config.json`
 ```
 {
-    "auth_token": "TOKEN",
-    "project_ids": "project_ids",
+    "api_key": "TOKEN",
     "website_url": ["google.com", "apple.com"]
 }
 ```
