@@ -30,3 +30,4 @@ class Reviews(TrustpilotStream):
 
     name = "reviews"
     path = "/business-units/{business_unit_id}/reviews"
+    primary_keys = ("id", "business_unit_id")

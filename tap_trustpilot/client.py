@@ -69,21 +69,6 @@ class TrustpilotStream(RESTStream):
             location="params",
         )
 
-    @property
-    def http_headers(self) -> dict:
-        """Return the http headers needed.
-
-        Returns:
-            A dictionary of HTTP headers.
-        """
-
-        headers = {}
-        if "user_agent" in self.config:
-            headers["User-Agent"] = self.config.get("user_agent")
-
-        headers["apikey"] = self.config.get("auth_token")  # noqa: ERA001
-        return headers
-
     def get_url_params(self, context, next_page_token):
         starting_date = self.get_starting_timestamp(context)
         # params["starting_after"] = self.get_starting_replication_key_value(context)
@@ -107,12 +92,12 @@ class TrustpilotStream(RESTStream):
 
     def get_business_unit_id(self, website_url):
         if website_url in self.websites_checked:
-            logging.info(
+            logging.debug(
                 f"Already have for {website_url} and exitsts in {self.websites_checked}"
             )
             return self.business_unit_id
 
-        logging.info(
+        logging.debug(
             f"Getting {website_url=} and here is the list {self.websites_checked=}"
         )
 
