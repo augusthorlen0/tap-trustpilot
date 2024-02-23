@@ -42,5 +42,5 @@ class TrustpilotScores(TrustpilotStream):
 
     name = "trustpilot_scores"
     path = "/business-units/find?name={website_url}"
-    primary_keys = "id"
+    primary_keys = "bogus_id"
     records_jsonpath = "$.[*]"

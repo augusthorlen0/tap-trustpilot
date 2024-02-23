@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urlencode
 from functools import cached_property
 import typing as t
+import uuid
 
 import requests
 import copy
@@ -15,10 +16,9 @@ from singer_sdk._singerlib import Schema
 from singer_sdk.authenticators import APIKeyAuthenticator
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.helpers._typing import TypeConformanceLevel
-from singer_sdk.helpers._util import utc_now
 from singer_sdk.pagination import BaseAPIPaginator  # noqa: TCH002
 from singer_sdk.streams import RESTStream
-from singer_sdk.helpers._state import get_state_partitions_list
+
 
 if sys.version_info >= (3, 9):
     import importlib.resources as importlib_resources
@@ -145,6 +145,7 @@ class TrustpilotStream(RESTStream):
         """
 
         res_json = response.json()
-        res_json["fetched_at"] = utc_now().strftime("%Y-%m-%d %H:%M:%S")
+        # As it sounds bogus id. This is used as primary key in the TrustpilotScores in order to create history.
+        res_json["bogus_id"] = str(uuid.uuid4())
 
         yield from extract_jsonpath(self.records_jsonpath, input=res_json)
