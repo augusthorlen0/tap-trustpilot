@@ -1,11 +1,9 @@
 """Trustpilot tap class."""
 
 from __future__ import annotations
-from types import MappingProxyType
 
 from singer_sdk import Tap
 from singer_sdk import typing as th  # JSON schema typing helpers
-import logging
 
 # TODO: Import your custom stream types here:
 from tap_trustpilot import streams
@@ -42,6 +40,7 @@ class TapTrustpilot(Tap):
 
         return [
             streams.Reviews(self),
+            streams.TrustpilotScores(self),
         ]
 
 

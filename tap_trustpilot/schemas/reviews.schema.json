@@ -92,6 +92,10 @@
       },
       "reviewVerificationLevel": {
           "type": ["string", "null"]
+      },
+      "fetched_at": {
+          "type": "string",
+          "format": "date-time"
       }
   },
   "additionalProperties": false
