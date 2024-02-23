@@ -1,0 +1,74 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "country": {
+            "type": "string"
+        },
+        "displayName": {
+            "type": "string"
+        },
+        "name": {
+            "type": "object",
+            "properties": {
+                "referring": {
+                    "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "identifying": {
+                "type": ["string", "null"]
+            }
+            }
+        },
+        "score": {
+            "type": "object",
+            "properties": {
+                "stars": {
+                    "type": "number"
+                },
+                "trustScore": {
+                    "type": "number"
+                }
+            }
+        },
+        "status": {
+            "type": ["string", "null"]
+        },
+        "numberOfReviews": {
+            "type": "object",
+            "properties": {
+                "total": {
+                    "type": "integer" 
+                },
+                "usedForTrustScoreCalculation": {
+                    "type": "integer" 
+                },
+                "oneStar": {
+                    "type": "integer" 
+                },
+                "twoStars": {
+                    "type": "integer" 
+                },
+                "threeStars": {
+                    "type": "integer" 
+                },
+                "fourStars": {
+                    "type": "integer" 
+                },
+                "fiveStars": {
+                    "type": "integer" 
+                }
+            }
+        },
+        "fetched_at":{
+            "type": "string",
+            "format": "date-time"
+        }
+
+  },
+  "additionalProperties": false
+}

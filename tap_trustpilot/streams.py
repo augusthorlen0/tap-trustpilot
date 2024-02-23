@@ -31,3 +31,16 @@ class Reviews(TrustpilotStream):
     name = "reviews"
     path = "/business-units/{business_unit_id}/reviews"
     primary_keys = ("id", "business_unit_id")
+    records_jsonpath = "$.reviews.[*]"
+    next_page_token_jsonpath = "$.links.[1].href"  # noqa: S105
+
+
+class TrustpilotScores(TrustpilotStream):
+    """
+    Get Reviews for the given website in the config file
+    """
+
+    name = "trustpilot_scores"
+    path = "/business-units/find?name={website_url}"
+    primary_keys = "id"
+    records_jsonpath = "$.[*]"

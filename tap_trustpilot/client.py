@@ -6,15 +6,16 @@ from typing import Any, Callable, Iterable
 from pathlib import Path
 from urllib.parse import urlencode
 from functools import cached_property
+import typing as t
 
 import requests
 import copy
 import logging
-from singer_sdk import Tap
 from singer_sdk._singerlib import Schema
 from singer_sdk.authenticators import APIKeyAuthenticator
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.helpers._typing import TypeConformanceLevel
+from singer_sdk.helpers._util import utc_now
 from singer_sdk.pagination import BaseAPIPaginator  # noqa: TCH002
 from singer_sdk.streams import RESTStream
 from singer_sdk.helpers._state import get_state_partitions_list
@@ -36,8 +37,8 @@ class TrustpilotStream(RESTStream):
 
     TYPE_CONFORMANCE_LEVEL = TypeConformanceLevel.ROOT_ONLY
 
-    records_jsonpath = "$.reviews.[*]"
-    next_page_token_jsonpath = "$.links.[1].href"  # noqa: S105
+    # records_jsonpath = "$.reviews.[*]"
+    # next_page_token_jsonpath = "$.links.[1].href"  # noqa: S105
     websites_checked: list = []
     business_unit_id: str = None
 
@@ -132,3 +133,18 @@ class TrustpilotStream(RESTStream):
         website_url_list = self.config.get("website_url", "")
 
         return [{"website_url": x} for x in website_url_list]
+
+    def parse_response(self, response: requests.Response) -> t.Iterable[dict]:
+        """Parse the response and return an iterator of result records.
+
+        Args:
+            response: A raw :class:`requests.Response`
+
+        Yields:
+            One item for every item found in the response.
+        """
+
+        res_json = response.json()
+        res_json["fetched_at"] = utc_now().strftime("%Y-%m-%d %H:%M:%S")
+
+        yield from extract_jsonpath(self.records_jsonpath, input=res_json)
