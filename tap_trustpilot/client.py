@@ -12,6 +12,7 @@ import uuid
 import requests
 import copy
 import logging
+from urllib.parse import parse_qs, urlparse
 from singer_sdk._singerlib import Schema
 from singer_sdk.authenticators import APIKeyAuthenticator
 from singer_sdk.helpers.jsonpath import extract_jsonpath
@@ -34,6 +35,7 @@ REVIEWS_PER_PAGE = 50
 
 class TrustpilotStream(RESTStream):
     page_number = 1
+    previous_visited_urls = []
 
     TYPE_CONFORMANCE_LEVEL = TypeConformanceLevel.ROOT_ONLY
 
@@ -73,14 +75,27 @@ class TrustpilotStream(RESTStream):
     def get_url_params(self, context, next_page_token):
         starting_date = self.get_starting_timestamp(context)
         # params["starting_after"] = self.get_starting_replication_key_value(context)
+
+        if next_page_token is None:
+            logging.info(f'{next_page_token=} making it 1')
+            self.page_number = 1
+
+        if next_page_token in self.previous_visited_urls:
+            # A weird behaviour from TrustPilot API where the last page is shown then it will show the previous one
+            # hence 2 is added to the page and visited
+            self.page_number = int(parse_qs(urlparse(next_page_token).query).get('page')[0]) + 2
+            logging.info(f'Last page visited, sending to an empty page.')
+
         params = {
             "page": self.page_number,
             "perPage": REVIEWS_PER_PAGE,
             "orderBy": "createdat.desc",
             "startDateTime": self.get_starting_replication_key_value(context),
         }
-        self.page_number += 1
 
+        self.page_number += 1
+        if next_page_token is not None:
+            self.previous_visited_urls.append(next_page_token)
         return urlencode(params, safe="()")
 
     def get_url(self, context):
